@@ -16,13 +16,3 @@ func ListTopic(admin sarama.ClusterAdmin) func (c *gin.Context) {
     }
 }
 
-func ListConsumerGroups(admin sarama.ClusterAdmin) func (c *gin.Context) {
-    return func(c *gin.Context) {
-        consumerGroups, err := admin.ListConsumerGroups()
-        if err != nil {
-            c.String(http.StatusBadRequest, err.Error())
-        }
-        c.JSON(http.StatusOK, consumerGroups)
-    }
-}
-
