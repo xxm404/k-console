@@ -1,0 +1,77 @@
+definitions:
+  cmd.TopicDetail:
+    properties:
+      configEntries:
+        additionalProperties:
+          type: string
+        description: ConfigEntries contains the custom topic configurations to set.
+        type: object
+      numPartitions:
+        description: |-
+          NumPartitions contains the number of partitions to create in the topic, or
+          -1 if we are either specifying a manual partition assignment or using the
+          default partitions.
+        type: integer
+      replicaAssignment:
+        additionalProperties:
+          items:
+            type: integer
+          type: array
+        description: |-
+          ReplicaAssignment contains the manual partition assignment, or the empty
+          array if we are using automatic assignment.
+        type: object
+      replicationFactor:
+        description: |-
+          ReplicationFactor contains the number of replicas to create for each
+          partition in the topic, or -1 if we are either specifying a manual
+          partition assignment or using the default replication factor.
+        type: integer
+    type: object
+info:
+  contact: {}
+paths:
+  /groups:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of all consumer groups from the Kafka cluster.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'OK: Map of consumer group names to their respective protocol
+            types.'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: 'Bad Request: Error message if unable to list groups.'
+          schema:
+            type: string
+      summary: List Kafka consumer groups
+      tags:
+      - kafka
+  /topics:
+    get:
+      consumes:
+      - application/json
+      description: get list of all Kafka topics from the cluster
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of Kafka topics
+          schema:
+            additionalProperties:
+              $ref: '#/definitions/cmd.TopicDetail'
+            type: object
+        "400":
+          description: Bad Request when listing topics fails
+          schema:
+            type: string
+      summary: List Kafka topics
+      tags:
+      - kafka
+swagger: "2.0"

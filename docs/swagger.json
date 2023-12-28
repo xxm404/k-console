@@ -1,0 +1,104 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/groups": {
+            "get": {
+                "description": "Get a list of all consumer groups from the Kafka cluster.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "kafka"
+                ],
+                "summary": "List Kafka consumer groups",
+                "responses": {
+                    "200": {
+                        "description": "OK: Map of consumer group names to their respective protocol types.",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Error message if unable to list groups.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/topics": {
+            "get": {
+                "description": "get list of all Kafka topics from the cluster",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "kafka"
+                ],
+                "summary": "List Kafka topics",
+                "responses": {
+                    "200": {
+                        "description": "List of Kafka topics",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "$ref": "#/definitions/cmd.TopicDetail"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request when listing topics fails",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "cmd.TopicDetail": {
+            "type": "object",
+            "properties": {
+                "configEntries": {
+                    "description": "ConfigEntries contains the custom topic configurations to set.",
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "numPartitions": {
+                    "description": "NumPartitions contains the number of partitions to create in the topic, or\n-1 if we are either specifying a manual partition assignment or using the\ndefault partitions.",
+                    "type": "integer"
+                },
+                "replicaAssignment": {
+                    "description": "ReplicaAssignment contains the manual partition assignment, or the empty\narray if we are using automatic assignment.",
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "replicationFactor": {
+                    "description": "ReplicationFactor contains the number of replicas to create for each\npartition in the topic, or -1 if we are either specifying a manual\npartition assignment or using the default replication factor.",
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}

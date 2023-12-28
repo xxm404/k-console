@@ -6,6 +6,10 @@ import (
     "net/http"
     "github.com/gin-gonic/gin"
     "github.com/IBM/sarama"
+    gs "github.com/swaggo/gin-swagger"
+    sf "github.com/swaggo/files"
+    "github.com/xxm404/k-console/cmd"
+    docs "github.com/xxm404/k-console/docs"
 )
 
 func main() {
@@ -23,9 +27,14 @@ func main() {
             "message": "pong",
         })
     })
-    r.GET("/topics", ListTopic(admin))
-    r.GET("/groups", ListGroups(admin))
 
+    docs.SwaggerInfo.BasePath = "/api/v1"
+    v1 := r.Group("/api/v1")
+
+    v1.GET("/topics", cmd.ListTopic(admin))
+    v1.GET("/groups", cmd.ListGroups(admin))
+
+    r.GET("/swagger/*any", gs.WrapHandler(sf.Handler))
     r.Run(":7777")
 }
 
