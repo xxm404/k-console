@@ -1,4 +1,15 @@
 definitions:
+  cmd.BrokerDetail:
+    properties:
+      host:
+        type: string
+      id:
+        type: integer
+      port:
+        type: integer
+      rack:
+        type: string
+    type: object
   cmd.TopicDetail:
     properties:
       configEntries:
@@ -31,6 +42,28 @@ definitions:
 info:
   contact: {}
 paths:
+  /brokers:
+    get:
+      consumes:
+      - application/json
+      description: get list of Kafka brokers from the sarama client
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of broker details
+          schema:
+            items:
+              $ref: '#/definitions/cmd.BrokerDetail'
+            type: array
+        "400":
+          description: Bad request when the host and port cannot be parsed
+          schema:
+            type: string
+      summary: List brokers
+      tags:
+      - Kafka
+      - Broker
   /groups:
     get:
       consumes:
@@ -52,7 +85,8 @@ paths:
             type: string
       summary: List Kafka consumer groups
       tags:
-      - kafka
+      - Kafka
+      - ConsumerGroup
   /topics:
     get:
       consumes:
@@ -73,5 +107,6 @@ paths:
             type: string
       summary: List Kafka topics
       tags:
-      - kafka
+      - Kafka
+      - Topic
 swagger: "2.0"

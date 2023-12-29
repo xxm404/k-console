@@ -25,7 +25,7 @@ type TopicDetail struct {
 // ListTopics godoc
 // @Summary List Kafka topics
 // @Description get list of all Kafka topics from the cluster
-// @Tags kafka
+// @Tags Kafka,Topic
 // @Accept  json
 // @Produce  json
 // @Success 200 {object} map[string]TopicDetail "List of Kafka topics"

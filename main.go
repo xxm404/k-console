@@ -17,9 +17,14 @@ func main() {
     config := sarama.NewConfig()
     admin, err := sarama.NewClusterAdmin([]string{kafkaString}, config)
     if err != nil {
-        log.Fatal("Failed to connect to Kafka ", err)
+        log.Fatal("Failed to connect to Kafka admin ", err)
+    }
+    client, err := sarama.NewClient([]string{kafkaString}, config)
+    if err != nil {
+        log.Fatal("Failed to connect to Kafka client ", err)
     }
     defer admin.Close()
+    defer client.Close()
 
     r := gin.Default()
     r.GET("/ping", func(c *gin.Context) {
@@ -33,6 +38,7 @@ func main() {
 
     v1.GET("/topics", cmd.ListTopic(admin))
     v1.GET("/groups", cmd.ListGroups(admin))
+    v1.GET("/brokers", cmd.ListBrokers(client))
 
     r.GET("/swagger/*any", gs.WrapHandler(sf.Handler))
     r.Run(":7777")

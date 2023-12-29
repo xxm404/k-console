@@ -15,6 +15,39 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/brokers": {
+            "get": {
+                "description": "get list of Kafka brokers from the sarama client",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Kafka",
+                    "Broker"
+                ],
+                "summary": "List brokers",
+                "responses": {
+                    "200": {
+                        "description": "List of broker details",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/cmd.BrokerDetail"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request when the host and port cannot be parsed",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/groups": {
             "get": {
                 "description": "Get a list of all consumer groups from the Kafka cluster.",
@@ -25,7 +58,8 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "kafka"
+                    "Kafka",
+                    "ConsumerGroup"
                 ],
                 "summary": "List Kafka consumer groups",
                 "responses": {
@@ -57,7 +91,8 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "kafka"
+                    "Kafka",
+                    "Topic"
                 ],
                 "summary": "List Kafka topics",
                 "responses": {
@@ -81,6 +116,23 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "cmd.BrokerDetail": {
+            "type": "object",
+            "properties": {
+                "host": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "port": {
+                    "type": "integer"
+                },
+                "rack": {
+                    "type": "string"
+                }
+            }
+        },
         "cmd.TopicDetail": {
             "type": "object",
             "properties": {

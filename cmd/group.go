@@ -9,7 +9,7 @@ import (
 // ListGroups godoc
 // @Summary List Kafka consumer groups
 // @Description Get a list of all consumer groups from the Kafka cluster.
-// @Tags kafka
+// @Tags Kafka,ConsumerGroup
 // @Accept  json
 // @Produce  json
 // @Success 200 {object} map[string]string "OK: Map of consumer group names to their respective protocol types."
