@@ -5,6 +5,8 @@ Kafka manage console
 1. Start Kafka
 ```
 cd k-console/ && docker-compose up -d
+// create create topic
+docker exec -u root [container_id] /opt/bitnami/kafka/bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --topic testTopic
 ```
 2. Run
 ```
