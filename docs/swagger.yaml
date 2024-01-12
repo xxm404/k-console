@@ -124,6 +124,7 @@ paths:
       summary: Publish message to Kafka topic
       tags:
       - Kafka
+      - Topic
   /topics:
     get:
       consumes:

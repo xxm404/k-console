@@ -91,7 +91,8 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Kafka"
+                    "Kafka",
+                    "Topic"
                 ],
                 "summary": "Publish message to Kafka topic",
                 "parameters": [
