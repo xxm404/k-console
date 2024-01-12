@@ -10,6 +10,16 @@ definitions:
       rack:
         type: string
     type: object
+  cmd.PubBody:
+    properties:
+      content:
+        type: string
+      topic:
+        type: string
+    required:
+    - content
+    - topic
+    type: object
   cmd.TopicDetail:
     properties:
       configEntries:
@@ -87,6 +97,33 @@ paths:
       tags:
       - Kafka
       - ConsumerGroup
+  /publish:
+    post:
+      consumes:
+      - application/json
+      description: Publishes a message to the specified Kafka topic using Sarama SyncProducer.
+      parameters:
+      - description: Publish Body
+        in: body
+        name: pubBody
+        required: true
+        schema:
+          $ref: '#/definitions/cmd.PubBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Message is stored in topic(partition/offset)
+          schema:
+            type: string
+        "400":
+          description: 'error": "Error description'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Publish message to Kafka topic
+      tags:
+      - Kafka
   /topics:
     get:
       consumes:

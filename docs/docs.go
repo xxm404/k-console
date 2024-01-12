@@ -81,6 +81,47 @@ const docTemplate = `{
                 }
             }
         },
+        "/publish": {
+            "post": {
+                "description": "Publishes a message to the specified Kafka topic using Sarama SyncProducer.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Kafka"
+                ],
+                "summary": "Publish message to Kafka topic",
+                "parameters": [
+                    {
+                        "description": "Publish Body",
+                        "name": "pubBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/cmd.PubBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Message is stored in topic(partition/offset)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "error\": \"Error description",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/topics": {
             "get": {
                 "description": "get list of all Kafka topics from the cluster",
@@ -129,6 +170,21 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "rack": {
+                    "type": "string"
+                }
+            }
+        },
+        "cmd.PubBody": {
+            "type": "object",
+            "required": [
+                "content",
+                "topic"
+            ],
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "topic": {
                     "type": "string"
                 }
             }
